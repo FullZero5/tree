@@ -1,26 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <ExhibitorsList uuid2="922fce7d-f384-4258-8bee-1e09d3c75107" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ExhibitorsList from './components/ExhibitorsList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    ExhibitorsList
+  }  
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
