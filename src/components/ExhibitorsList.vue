@@ -1,8 +1,11 @@
 <template>
   <div class="exhibitors-list">
-    <h1>Список участников</h1>
-    <ul v-for="item in exhibitors" :key="item.id" class="bg-black text-white">
-      <li>{{item.name}}</li>
+    <h2 class="mb-5">Список участников</h2>
+    <ul class="grid grid-cols-4 gap-4">
+      <li v-for="item in exhibitors" :key="item.id" class="border shadow p-5">      
+        <div >{{ (item.exhibitor_data.name) ? item.exhibitor_data.name : item.name}}</div>
+        <div class="text-sm text-gray-400">{{item.exhibitor_data.country}}, {{item.exhibitor_data.city}}</div>
+      </li>
     </ul>    
   </div>
 </template>
@@ -34,8 +37,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

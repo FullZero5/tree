@@ -1,4 +1,4 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
+// const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
@@ -9,9 +9,9 @@ module.exports = {
     './src/**/*.vue',
   ],
   theme: {
-    fontFamily: {
-      sans: ['Inter', ...defaultTheme.fontFamily.sans],
-    },
+    // fontFamily: {
+    //   sans: ['Inter', ...defaultTheme.fontFamily.sans],
+    // },
   },
   variants: {},
   plugins: [],
