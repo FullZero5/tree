@@ -1,8 +1,7 @@
 <template>
- <div>
+ <main class="container">
   <ExhibitorsList uuid2="922fce7d-f384-4258-8bee-1e09d3c75107" /> 
-  <p>тест2</p>
-</div>
+ </main>
 </template>
 
 <script>
