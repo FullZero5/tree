@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy":"cd dist && rsync --archive --compress --delete . usenko@185.114.245.109:/home/u/usenko/widget/public_html/"
   },
   "dependencies": {
     "autoprefixer": "^9.8.6",
