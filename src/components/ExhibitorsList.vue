@@ -17,30 +17,52 @@
           <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
-        <div class="inline-block align-top bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                     
-            <div class="flex justify-between items-center px-4 py-5 sm:px-6">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                {{ (exhibitorItem.exhibitor_data.name) ? exhibitorItem.exhibitor_data.name : exhibitorItem.name }}
-              </h3>
-              <div class="cursor-pointer z-50" @click="toggleModal">
-                <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                </svg>
+        <div class="inline-block align-top bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+
+          <!-- close modal -->
+          <div class="absolute top-3 right-3 cursor-pointer bg-white p-3" @click="toggleModal">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+          </div>
+
+          <div class="md:grid grid-cols-3 gap-6 p-6">
+            <div class="mb-4 sm:mb-0">
+              
+              <img src="https://www.yugbuild.com/getattachment/06e43c39-c9c6-479e-9329-df6235d93375/138.aspx" class="mb-3" />
+              
+              <div>
+                <span class="text-sm text-gray-600 mr-2">Тел.</span> {{exhibitorItem.exhibitor_data.phone}}
               </div>
+              <div>
+                <span class="text-sm text-gray-600 mr-2">E-mail</span> {{exhibitorItem.exhibitor_data.email}}
+              </div>
+              <div>
+                <span class="text-sm text-gray-600 mr-2">Сайт</span> {{exhibitorItem.exhibitor_data.site}}
+              </div>
+              
             </div>
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">               
+            <div class="col-span-2">
+              <div class="mb-3">
+                <span class="text-gray-600 text-sm">Наименование компании</span>
+                <div>{{ (exhibitorItem.exhibitor_data.name) ? exhibitorItem.exhibitor_data.name : exhibitorItem.name }}</div>
+              </div>
+              <div class="mb-3">
+                <span class="text-gray-600 text-sm">Адрес</span>
+                <div>
+                  {{exhibitorItem.exhibitor_data.country}}, 
+                  {{exhibitorItem.exhibitor_data.city}}, 
+                  {{exhibitorItem.exhibitor_data.address}}
+                </div>
+              </div>
+              <div class="mb-3">
+                <span class="text-gray-600 text-sm">Описание компании</span>
+                <div>{{exhibitorItem.exhibitor_data.description}}</div>
+              </div>
+              
+            </div>
+          </div>
 
-              <div>{{exhibitorItem.exhibitor_data.country}}</div>
-              <div>{{exhibitorItem.exhibitor_data.city}}</div>
-
-              <ul>
-                <li v-for="item in exhibitorItem.exhibitor_data" :key="item">
-                  {{item}}
-                </li>
-              </ul>
-
-            </div>       
         </div>
       </div>
     </div>
