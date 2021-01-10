@@ -4,8 +4,11 @@
     <ul class="grid grid-cols-4 gap-4">
       <li v-for="item in exhibitors" :key="item.id">
         <div @click="toggleModal(item)" class="border shadow p-5 cursor-pointer">
-          <div >{{ (item.exhibitor_data.name) ? item.exhibitor_data.name : item.name}}</div>
-          <div class="text-sm text-gray-400">{{item.exhibitor_data.country}}, {{item.exhibitor_data.city}}</div>
+          <!-- <div >{{ (item.exhibitor_data.name) ? item.exhibitor_data.name : item.name}}</div>
+          <div class="text-sm text-gray-400">{{item.exhibitor_data.country}}, {{item.exhibitor_data.city}}</div> -->
+          <div >{{ (item.data) ? item.data.name[locale] : item.name}}</div>
+          <div class="text-sm text-gray-400">{{ (item.data) ? item.data.city[locale] : '-'}}</div>
+          <div class="text-sm text-gray-400">{{ (item.stand) ? item.stand : '-'}}</div>
         </div>        
       </li>
     </ul>
@@ -29,35 +32,35 @@
           <div class="md:grid grid-cols-3 gap-6 p-6">
             <div class="mb-4 sm:mb-0">
               
-              <img src="https://www.yugbuild.com/getattachment/06e43c39-c9c6-479e-9329-df6235d93375/138.aspx" class="mb-3" />
+              <!-- <img src="https://ekatmaster.ru/{{}}" class="mb-3" /> -->
               
               <div>
-                <span class="text-sm text-gray-600 mr-2">Тел.</span> {{exhibitorItem.exhibitor_data.phone}}
+                <span class="text-sm text-gray-600 mr-2">Тел.</span> {{ (exhibitorItem.data.phone) ? exhibitorItem.data.phone : '-' }}
               </div>
               <div>
-                <span class="text-sm text-gray-600 mr-2">E-mail</span> {{exhibitorItem.exhibitor_data.email}}
+                <span class="text-sm text-gray-600 mr-2">E-mail</span> {{ (exhibitorItem.data.email) ? exhibitorItem.data.email : '-' }}
               </div>
               <div>
-                <span class="text-sm text-gray-600 mr-2">Сайт</span> {{exhibitorItem.exhibitor_data.site}}
+                <span class="text-sm text-gray-600 mr-2">Сайт</span> {{ (exhibitorItem.data.site) ? exhibitorItem.data.site : '-'}}
               </div>
               
             </div>
             <div class="col-span-2">
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Наименование компании</span>
-                <div>{{ (exhibitorItem.exhibitor_data.name) ? exhibitorItem.exhibitor_data.name : exhibitorItem.name }}</div>
+                <div>{{ (exhibitorItem.data.name[locale]) ? exhibitorItem.data.name[locale] : exhibitorItem.name }}</div>
               </div>
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Адрес</span>
                 <div>
-                  {{exhibitorItem.exhibitor_data.country}}, 
+                  <!-- {{exhibitorItem.exhibitor_data.country}}, 
                   {{exhibitorItem.exhibitor_data.city}}, 
-                  {{exhibitorItem.exhibitor_data.address}}
+                  {{exhibitorItem.exhibitor_data.address}} -->
                 </div>
               </div>
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Описание компании</span>
-                <div>{{exhibitorItem.exhibitor_data.description}}</div>
+                <div>{{exhibitorItem.data.description[locale]}}</div>
               </div>
               
             </div>
@@ -78,7 +81,8 @@ export default {
       exhibitors : [],
       uuid : null,
       modal : false,
-      exhibitorItem : null
+      exhibitorItem : null,
+      locale : 'ru'
     }
   },
   mounted() {
@@ -96,9 +100,14 @@ export default {
     getUuid(){
       this.uuid = document.getElementById("app").dataset.uuid
     },
+    
     toggleModal(item) {
-      this.exhibitorItem = item
-      this.modal = !this.modal
+      if(item.data) {
+        this.exhibitorItem = item
+      }
+
+      this.modal = item.data ? !this.modal : null
+      
     }
   }
 }
