@@ -3,12 +3,11 @@
     
     <ul class="grid grid-cols-4 gap-4">
       <li v-for="item in exhibitors" :key="item.id">
-        <div @click="toggleModal(item)" class="border shadow p-5 cursor-pointer">
-          <!-- <div >{{ (item.exhibitor_data.name) ? item.exhibitor_data.name : item.name}}</div>
-          <div class="text-sm text-gray-400">{{item.exhibitor_data.country}}, {{item.exhibitor_data.city}}</div> -->
-          <div >{{ (item.data) ? item.data.name[locale] : item.name}}</div>
-          <div class="text-sm text-gray-400">{{ (item.data) ? item.data.city[locale] : '-'}}</div>
-          <div class="text-sm text-gray-400">{{ (item.stand) ? item.stand : '-'}}</div>
+        <div @click="getExhibitorData(item.id)" class="border shadow p-5 cursor-pointer">
+          <img :src="'https://ekatmaster.ru' + item.logo" />
+          <div>{{ item.name }}</div>
+          <div class="text-sm text-gray-400">{{ item.city}}</div>
+          <div class="text-sm text-gray-400">{{ item.stand }}</div>
         </div>        
       </li>
     </ul>
@@ -34,7 +33,7 @@
               
               <!-- <img src="https://ekatmaster.ru/{{}}" class="mb-3" /> -->
               
-              <div>
+              <!-- <div>
                 <span class="text-sm text-gray-600 mr-2">Тел.</span> {{ (exhibitorItem.data.phone) ? exhibitorItem.data.phone : '-' }}
               </div>
               <div>
@@ -42,13 +41,13 @@
               </div>
               <div>
                 <span class="text-sm text-gray-600 mr-2">Сайт</span> {{ (exhibitorItem.data.site) ? exhibitorItem.data.site : '-'}}
-              </div>
+              </div> -->
               
             </div>
             <div class="col-span-2">
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Наименование компании</span>
-                <div>{{ (exhibitorItem.data.name[locale]) ? exhibitorItem.data.name[locale] : exhibitorItem.name }}</div>
+                <!-- <div>{{ (exhibitorItem.data.name[locale]) ? exhibitorItem.data.name[locale] : exhibitorItem.name }}</div> -->
               </div>
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Адрес</span>
@@ -60,7 +59,7 @@
               </div>
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Описание компании</span>
-                <div>{{exhibitorItem.data.description[locale]}}</div>
+                <!-- <div>{{exhibitorItem.data.description[locale]}}</div> -->
               </div>
               
             </div>
@@ -82,33 +81,48 @@ export default {
       uuid : null,
       modal : false,
       exhibitorItem : null,
-      locale : 'ru'
+      locale : 'ru',
+      culture : 'en'
     }
   },
   mounted() {
     this.getUuid()
-    this.getData()
+    this.getCulture()
+    this.getExhibitors()
   },
   methods : {
-    getData() {
-      fetch(`https://ekatmaster.ru/api/project/${this.uuid}/exhibitor-list`)
+    getExhibitors() {
+      fetch(`https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors`)
         .then(result => result.json())
         .then(result => {
-            this.exhibitors = result.exhibitorList
+            this.exhibitors = result.data
         })
     },
     getUuid(){
       this.uuid = document.getElementById("app").dataset.uuid
     },
-    
-    toggleModal(item) {
-      if(item.data) {
-        this.exhibitorItem = item
-      }
 
-      this.modal = item.data ? !this.modal : null
-      
+    getCulture(){
+      this.culture = document.getElementById("app").dataset.culture
+    },
+    
+    // toggleModal(item) {
+    //   if(item.active === false) {
+    //     this.exhibitorItem = item        
+    //   }
+    //   this.modal = !this.modal      
+    // }
+
+
+    getExhibitorData(id){
+      fetch(`https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors/${id}`)
+        .then(result => result.json())
+        .then(result => {
+            this.exhibitorItem = result.data
+        })
+        this.modal = !this.modal
     }
+
   }
 }
 </script>
