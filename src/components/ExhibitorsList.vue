@@ -22,7 +22,7 @@
         <div class="inline-block align-top bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
           <!-- close modal -->
-          <div class="absolute top-3 right-3 cursor-pointer bg-white p-3" @click="toggleModal">
+          <div class="absolute top-3 right-3 cursor-pointer bg-white p-3" @click="closeModal">
             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
               <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
             </svg>
@@ -31,35 +31,35 @@
           <div class="md:grid grid-cols-3 gap-6 p-6">
             <div class="mb-4 sm:mb-0">
               
-              <!-- <img src="https://ekatmaster.ru/{{}}" class="mb-3" /> -->
+              <img :src="'https://ekatmaster.ru/' + exhibitorItem.logo" class="mb-3" />
               
-              <!-- <div>
-                <span class="text-sm text-gray-600 mr-2">Тел.</span> {{ (exhibitorItem.data.phone) ? exhibitorItem.data.phone : '-' }}
+              <div>
+                <span class="text-sm text-gray-600 mr-2">Тел.</span> {{ exhibitorItem.phone }}
               </div>
               <div>
-                <span class="text-sm text-gray-600 mr-2">E-mail</span> {{ (exhibitorItem.data.email) ? exhibitorItem.data.email : '-' }}
+                <span class="text-sm text-gray-600 mr-2">E-mail</span> {{ exhibitorItem.email }}
               </div>
               <div>
-                <span class="text-sm text-gray-600 mr-2">Сайт</span> {{ (exhibitorItem.data.site) ? exhibitorItem.data.site : '-'}}
-              </div> -->
+                <span class="text-sm text-gray-600 mr-2">Сайт</span> {{ exhibitorItem.site }}
+              </div>
               
             </div>
             <div class="col-span-2">
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Наименование компании</span>
-                <!-- <div>{{ (exhibitorItem.data.name[locale]) ? exhibitorItem.data.name[locale] : exhibitorItem.name }}</div> -->
+                <div>{{ exhibitorItem.name }}</div>
               </div>
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Адрес</span>
                 <div>
-                  <!-- {{exhibitorItem.exhibitor_data.country}}, 
-                  {{exhibitorItem.exhibitor_data.city}}, 
-                  {{exhibitorItem.exhibitor_data.address}} -->
+                  {{ exhibitorItem.country }}, 
+                  {{ exhibitorItem.city }}, 
+                  {{ exhibitorItem.address }}
                 </div>
               </div>
               <div class="mb-3">
                 <span class="text-gray-600 text-sm">Описание компании</span>
-                <!-- <div>{{exhibitorItem.data.description[locale]}}</div> -->
+                <div>{{ exhibitorItem.description }}</div>
               </div>
               
             </div>
@@ -114,11 +114,18 @@ export default {
     // }
 
 
+    closeModal(){
+      this.exhibitorItem = null
+      this.modal = false
+    },
+      
+
+
     getExhibitorData(id){
       fetch(`https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors/${id}`)
         .then(result => result.json())
         .then(result => {
-            this.exhibitorItem = result.data
+            this.exhibitorItem = result
         })
         this.modal = !this.modal
     }
