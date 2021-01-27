@@ -41,7 +41,7 @@
           </div>
           <div>
             <nav class="relative z-0 inline-flex shadow-sm -space-x-px" aria-label="Pagination">
-              <div v-for="link in exhibitors.links" :key="link.id" @click="leaf(link.url)" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-50" v-bind:class="{ 'bg-gray-100': link.active }">
+              <div v-for="link in exhibitors.links" :key="link.id" @click="!link.active ? leaf(link.url) : null"  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-50" v-bind:class="{ 'bg-gray-100': link.active }">
                 <span v-html="link.label"></span>
               </div>
             </nav>
