@@ -1,29 +1,49 @@
 <template>
   <div class="exhibitors-list max-w-screen-xl mx-auto">
-    
-    <ul class="grid grid-cols-1 sm:grid-cols-4 gap-4 px-4 sm:px-0 mb-5">
-      <li v-for="item in exhibitors.data" :key="item.id" class="border shadow p-5" v-bind:class="{ 'cursor-pointer': item.active }">
-        <div @click="(item.active) ? getExhibitorData(item.id) : null" >
-          <figure class="mb-2">
-            <img v-if="item.logo" :src="'https://ekatmaster.ru' + item.logo" class="object-contain h-32 w-full" />
-            <svg v-else class="object-contain h-32 text-gray-200 w-full p-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </figure>          
-          <div>{{ item.name }}</div>
-          <div class="text-sm text-gray-400">{{ item.city}}</div>
-          <div class="text-sm text-gray-400">{{ item.stand }}</div>
-        </div>        
-      </li>
-    </ul>
 
-    <div class="pagination">
+    <div class="md:grid md:grid-cols-4 md:gap-6">
+      <div class="md:col-span-1">
+        <el-tree
+          empty-text="..."
+          class="filter-tree"
+          :data="rubricator"
+          :props="defaultProps"
+          default-expand-all
+          highlight-current
+          show-checkbox
+          node-key="id"
+          :filter-node-method="filterNode"
+          ref="tree"
+          @check="getCheckedNodes"
+        >
+        </el-tree>
+      </div>
+      <div class="md:col-span-3">
+        <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 sm:px-0 mb-5">
+          <li v-for="item in exhibitors.data" :key="item.id" class="border shadow p-5" v-bind:class="{ 'cursor-pointer': item.active }">
+            <div @click="(item.active) ? getExhibitorData(item.id) : null" >
+              <figure class="mb-2">
+                <img v-if="item.logo" :src="'https://ekatmaster.ru' + item.logo" class="object-contain h-32 w-full" />
+                <svg v-else class="object-contain h-32 text-gray-200 w-full p-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </figure>          
+              <div>{{ item.name }}</div>
+              <div class="text-sm text-gray-400">{{ item.city}}</div>
+              <div class="text-sm text-gray-400">{{ item.stand }}</div>
+            </div>        
+          </li>
+        </ul>
+      </div>      
+    </div>     
+
+    <div class="pagination" v-if="exhibitors.total > exhibitors.per_page">
       <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
         <div class="flex-1 flex justify-between sm:hidden">
-          <div @click="leaf(exhibitors.prev_page_url)" class="cursor-pointer relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+          <div @click="(exhibitors.prev_page_url) ? getExhibitors(exhibitors.prev_page_url) : null" class="cursor-pointer relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500" :class="[(exhibitors.prev_page_url) ? '' : 'hidden']">
             Previous
           </div>
-          <div @click="leaf(exhibitors.next_page_url)" class="cursor-pointer ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+          <div @click="(exhibitors.next_page_url) ? getExhibitors(exhibitors.next_page_url) : null" class="cursor-pointer ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500" :class="[(exhibitors.next_page_url) ? '' : 'hidden']">
             Next
           </div>
         </div>
@@ -41,7 +61,7 @@
           </div>
           <div>
             <nav class="relative z-0 inline-flex shadow-sm -space-x-px" aria-label="Pagination">
-              <div v-for="link in exhibitors.links" :key="link.id" @click="!link.active ? leaf(link.url) : null"  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-50" v-bind:class="{ 'bg-gray-100': link.active }">
+              <div v-for="link in exhibitors.links" :key="link.id" @click="(!link.active && link.url) ? (getExhibitors(link.url)) : null"  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-50" v-bind:class="{ 'bg-gray-100': link.active }">
                 <span v-html="link.label"></span>
               </div>
             </nav>
@@ -120,18 +140,39 @@ export default {
       modal : false,
       exhibitorItem : null,
       locale : 'ru',
-      culture : 'en'
+      culture : 'en',
+      rubricator: [],
+      defaultProps: {
+        id: "id",
+        children: "sub",
+        label: "text",
+      },
+      data : {
+        rubrics : []
+      }
     }
   },
   mounted() {
     this.getUuid()
     this.getCulture()
     this.getExhibitors()
+    this.getRubricator()
   },
   methods : {
+    getRubricator() {
+      fetch(`https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/rubricator`)
+      .then(result => result.json())
+      .then(result => {
+          this.rubricator = result
+      })
+    },
     getExhibitors(url = `https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors`) {
       fetch(url, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.data)
       })
       .then(result => result.json())
       .then(result => {
@@ -141,31 +182,30 @@ export default {
     getUuid(){
       this.uuid = document.getElementById("app").dataset.uuid
     },
-
     getCulture(){
       this.culture = document.getElementById("app").dataset.culture
-    },
-    
+    },    
     closeModal(){
       this.exhibitorItem = null
       this.modal = false
-    },
-      
+    },      
     getExhibitorData(id){
       fetch(`https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors/${id}`)
         .then(result => result.json())
         .then(result => {
             this.exhibitorItem = result
-        })
-        this.modal = !this.modal
+            this.modal = !this.modal
+        })        
     },
-
-    leaf(url) {
-      if(url) {
-        this.getExhibitors(url) 
-      }
+    getCheckedNodes() {
+      this.data.rubrics = [
+        ...new Set([
+          ...this.$refs.tree.getCheckedKeys(),
+          ...this.$refs.tree.getHalfCheckedKeys(),
+        ]),
+      ];
+      this.getExhibitors()
     }
-
   }
 }
 </script>
