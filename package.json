@@ -6,11 +6,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy":"cd dist && rsync --archive --compress --delete . usenko@185.114.245.109:/home/u/usenko/widget/public_html/"
+    "deploy": "cd dist && rsync --archive --compress --delete . usenko@185.114.245.109:/home/u/usenko/widget/public_html/"
   },
   "dependencies": {
     "autoprefixer": "^9.8.6",
     "core-js": "^3.6.5",
+    "element-plus": "^1.0.2-beta.32",
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
     "vue": "^3.0.0"
