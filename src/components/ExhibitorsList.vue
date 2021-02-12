@@ -130,11 +130,13 @@ export default {
   },
   methods : {
     getExhibitors(url = `https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors`) {
-      fetch(url)
-        .then(result => result.json())
-        .then(result => {
-            this.exhibitors = result
-        })
+      fetch(url, {
+        method: 'POST',
+      })
+      .then(result => result.json())
+      .then(result => {
+          this.exhibitors = result
+      })
     },
     getUuid(){
       this.uuid = document.getElementById("app").dataset.uuid
