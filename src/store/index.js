@@ -66,27 +66,3 @@ export const useMainStore = defineStore({
     }
   },
 })
-
-/*export const store = reactive({
-   modal: false,
-   selectExhibitorID: null,
-   selectExhibitor: {},
-  
-   rubrics: [],
-   exhibitors: []
-})
-
-export const storeMutations = {
-  async showModal() {
-    store.selectExhibitor = await apiService.getExhibitor(store.selectExhibitorID)
-    store.modal = !store.modal
-  },
-  setExhibitorID(value) {
-    store.selectExhibitorID = value  
-  },
-  async init() {
-    store.rubric = await apiService.getRubricator()
-    store.exhibitors = await apiService.getExhibitors()
-  }
-}
-*/

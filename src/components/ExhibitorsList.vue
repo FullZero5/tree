@@ -21,7 +21,6 @@
 <script>
 import { computed } from 'vue'
 import { useMainStore } from '../store'
-//import apiService from "../api/service"
 
 export default {
   name: 'ExhibitorsList',
@@ -34,51 +33,7 @@ export default {
     return {
       exhibitors: computed(() => main.getExhibitors),
       getExhibitorData
-    }
-    
+    }    
   }
-  /*data() {
-    return {
-      exhibitors : {},
-      modal : false,
-      exhibitorItem : null,
-      data : {
-        rubrics : []
-      }
-    }
-  },
-  async mounted() {   
-    this.exhibitors = await apiService.getExhibitors();
-  },
-  methods : {
-    getRubricator() {
-      fetch(`https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/rubricator`)
-      .then(result => result.json())
-      .then(result => {
-          this.rubricator = result
-      })
-    },
-    getExhibitors(url = `https://ekatmaster.ru/api/project/${this.uuid}/${this.culture}/exhibitors`) {
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.data)
-      })
-      .then(result => result.json())
-      .then(result => {
-          this.exhibitors = result
-      })
-    },   
-    closeModal(){
-      this.exhibitorItem = null
-      this.modal = false
-    },      
-    async getExhibitorData(id){
-      storeMutations.setExhibitorID(id);
-      storeMutations.showModal();
-    }
-  }*/
 }
 </script>

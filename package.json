@@ -15,7 +15,6 @@
     "pinia": "^2.0.0-alpha.7",
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
-    "tiny-emitter": "^2.1.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
