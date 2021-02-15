@@ -58,9 +58,17 @@ export const useMainStore = defineStore({
       this.selectExhibitor = await apiService.getExhibitor(this.selectExhibitorID)
       this.modal = !this.modal
     },
-    async init(){
-      this.rubrics = await apiService.getRubricator()
-      this.exhibitors = await apiService.getExhibitors()
+    init(){
+      /* Zakostyleno specially for Usenko */
+      (async () => {
+        Promise.all([
+          apiService.getRubricator(),
+          apiService.getExhibitors()
+        ]).then(values => {
+            this.rubrics = values[0]
+            this.exhibitors = values[1]
+          }).catch(err=>console.log(err))
+      })()
     },
     closeModal(){
       this.modal = !this.modal
