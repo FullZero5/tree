@@ -43,13 +43,14 @@ export default {
       return data.text.toLowerCase().indexOf(value) !== -1;
     }
     const getCheckedNodes = () => {
-      const data = [
+      const data = {}
+            data.rubrics = [
         ...new Set([
           ...tree.value.getCheckedKeys(),
           ...tree.value.getHalfCheckedKeys(),
         ]),
       ];
-      console.log(data)
+      main.setSelectRubrics(data)
     }
     const main = useMainStore()
     return {

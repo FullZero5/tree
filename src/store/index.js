@@ -47,6 +47,10 @@ export const useMainStore = defineStore({
     }
   },
   actions: {
+    async setSelectRubrics(value){
+      this.selectRubrics = value
+      this.exhibitors = await apiService.getExhibitors(1, this.selectRubrics)
+    },
     setExhibitorID(value) {
       this.selectExhibitorID = value  
     },
